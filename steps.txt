@@ -1,0 +1,11 @@
+https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-20-04
+
+mysql server and mysql workbench
+
+https://www.cyberciti.biz/faq/installing-mysql-server-on-ubuntu-22-04-lts-linux/
+Used for downloading mysql server into ubuntu 22.04
+
+Created an account in mongodb atlas with a cluster, because database designing for mongodb is easier from mysql also facing issue in local machine while installing the mysql work bench
+
+
+
