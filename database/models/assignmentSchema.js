@@ -1,15 +1,32 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const schema = mongoose.Schema;
 
+const accounts = ['student', 'teacher'];
+
 const assignmentSchema = schema({
-    s_ids: [String],
-    t_id: String,
-    desc: String,
-    published_at: Date,
-    deadline: Date,
+  teacherID: {
+    type: String,
+    required: true,
+  },
+  studentIDs: {
+    type: [String],
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  assignedDate: {
+    type: Date,
+    required: true,
+  },
+  deadline: {
+    type: Date,
+    required: true,
+  },
 });
 
-const assignment = mongoose.model("assignments", assignmentSchema);
+const Assignment = mongoose.model("assignments", assignmentSchema);
 
-module.exports = assignment;
+module.exports = Assignment;
