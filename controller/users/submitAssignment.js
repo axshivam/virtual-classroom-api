@@ -11,12 +11,12 @@ const auth = require("../../middleware/auth");
 router.post("/", auth, async (req, res) => {
   const { assignmentID, comments } = req.body;
 
-  if (!studentID || !assignmentID) {
+  if (!assignmentID) {
     res.status(400).send("Please provide all fields");
   }
 
   // check if the submitter is a student
-  if (req.user.accountType !== "student") {
+  if (req.user.type !== "student") {
     res
       .status(401)
       .send("Unauthorized, Only student can submit the assignment");

@@ -2,6 +2,7 @@ const mongoose = require("mongoose")
 const schema = mongoose.Schema
 
 
+// student id, assignment id, remark
 const submissionSchema = schema({
     studentID: {
       type: String,

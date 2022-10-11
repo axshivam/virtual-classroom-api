@@ -8,17 +8,20 @@ const auth = require("../../middleware/auth");
 
 router.post("/", auth, async (req, res) => {
   // destructuring the request body
-  const { teacherID, studentIDs, description, assignedDate, deadline } =
+  const { studentIDs, description, assignedDate, deadline } =
     req.body;
 
-  console.log(teacherID, studentIDs, description, assignedDate, deadline);
+  console.log( studentIDs, description, assignedDate, deadline );
 
   if (!studentIDs || !description || !assignedDate || !deadline) {
     res.status(400).send("Incomplete details, please provide all the details!");
   }
 
+  // for testing purpose
+  console.log(req.user);
+
   // check for only teacher can create the assignment
-  if (!req.user || req.user.accountType !== "teacher") {
+  if (!req.user || req.user.type !== "teacher") {
     res.status(401).send("Unauthorized! only teacher can create assignment");
   }
 
@@ -29,7 +32,7 @@ router.post("/", auth, async (req, res) => {
 
   // creating the assignment object for storing into the database
   const assignmentObj = {
-    teacherID: teacherID,
+    teacherID: req.user.id,
     studentIDs: studentIDs,
     description: description,
     assignedDate: assignedDate,

@@ -6,7 +6,7 @@ const router = express.Router();
 const Assignment = require("../../database/models/assignmentSchema");
 const auth = require("../../middleware/auth");
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
   const assignmentID = req.params.id;
 
   // check for assignment ID
@@ -21,8 +21,10 @@ router.delete("/:id", async (req, res) => {
     res.status(400).send("Assignment not exist for given Id!");
   }
 
+  console.log('User ====>>>> ', req.user);
+
   // check for only teacher can delete the assignment
-  if (!req.user || req.user.accountType !== "teacher") {
+  if (!req.user || req.user.type !== "teacher") {
     res.status(401).send("Unauthorized! only teacher can delete assignment");
   }
 

@@ -9,7 +9,7 @@ const assignment = require('./assignment/');
 // all api for authentication purpose
 router.use('/auth', authentication);
 
-// all api related to assignment details
+// all api related to assignment details [teacher]
 router.use('/assignment', assignment);
 
 // all api related to students assignment submission

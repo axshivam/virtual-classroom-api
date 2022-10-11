@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const schema = mongoose.Schema;
 
+// According to the problem statement, there can be two types of user
 const accounts = ['student', 'teacher'];
 
 const userSchema = schema({

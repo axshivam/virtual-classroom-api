@@ -15,7 +15,7 @@ router.patch("/:id", auth, async (req, res) => {
   }
 
   // check for only teacher can update the assignment
-  if (!req.user || req.user.accountType !== "teacher") {
+  if (!req.user || req.user.type !== "teacher") {
     res.status(401).send("Unauthorized! only teacher can update assignment");
   }
 

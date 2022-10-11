@@ -1,0 +1,315 @@
+// data base url
+mongodb+srv://axshivam:61620000@cluster0.z7bm1qr.mongodb.net/?retryWrites=true&w=majority
+
+===========================================================================
+Data Model for User
+
+// According to the problem statement, there can be two types of user
+const accounts = ['student', 'teacher'];
+
+const userSchema = schema({
+  firstname: {
+    type: String,
+    default: null,
+    required: true,
+  },
+  lastname: {
+    type: String,
+    default: null,
+    required: true,
+  },
+  email: {
+    type: String,
+    unique: true,
+    required: true,
+  },
+  username: {
+    type: String,
+    unique: true,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  accountType: {
+    type: String,
+    required: true,
+    // there are two types of user ===>>> student and teacher
+  },
+});
+
+==========================================================================================
+
+Data Model for Submission
+
+const submissionSchema = schema({
+    studentID: {
+      type: String,
+      required: true,
+    },
+    assignmentID: {
+      type: String,
+      required: true,
+    },
+    comments: {
+      type: String,
+      default: null,
+    },
+  });
+
+==========================================================================================
+Data Model For Assignment
+
+const assignmentSchema = schema({
+  teacherID: {
+    type: String,
+    required: true,
+  },
+  studentIDs: {
+    type: [String],
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  assignedDate: {
+    type: Date,
+    required: true,
+  },
+  deadline: {
+    type: Date,
+    required: true,
+  },
+});
+
+
+
+
+API'S DOCUMENTATION
+==========================================================================================
+http://localhost:3000/   for the home page of the application { GET Request }
+
+Response ===>>>
+{
+    "Message": "Welcome to the Home page of the application!"
+}
+==========================================================================================
+
+
+For the registration of the user (student or teacher) { POST Request }
+http://localhost:3000/api/auth/register
+
+{
+  "firstname": "toddle",
+  "lastname":  "assignment",
+  "email":  "shivsharma123@gmail.com",
+  "username":  "toddle",
+  "password":  "toddle@123",
+  "accountType": "teacher"
+}
+
+Response ===>>> returned a token
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNDUwZDhkOTA3ZTI2OGIyOTliYjExMyIsInVzZXJuYW1lIjoidG9kZGxlIiwidHlwZSI6InRlYWNoZXIiLCJpYXQiOjE2NjU0Njk4MzcsImV4cCI6MTY2NTQ3NzAzN30.zxGfPvSoLw16w_QQl5cdVYgOWjJy_l_9wmZpMa4dI20"
+}
+
+{
+  "firstname": "toddle1",
+  "lastname":  "assignment1",
+  "email":  "shivsharma1231@gmail.com",
+  "username":  "toddle1",
+  "password":  "toddle1@123",
+  "accountType": "student"
+}
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNDUxNGIzYTI0Y2VkNDY4NzVjMzdjYiIsInVzZXJuYW1lIjoidG9kZGxlMSIsInR5cGUiOiJzdHVkZW50IiwiaWF0IjoxNjY1NDcxNjY3LCJleHAiOjE2NjU0Nzg4Njd9.c3k8I5fpijg5vSB1bvb_oHvg1iDth4elUJLg0dOlN-4"
+}
+
+==========================================================================================
+
+// for login the user
+http://localhost:3000/api/auth/login    { POST Request }
+
+{
+  "username":  "toddle",
+  "password":  "toddle@123"
+}
+
+Response =====>>>>> returned a token
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNDUwZDhkOTA3ZTI2OGIyOTliYjExMyIsInVzZXJuYW1lIjoidG9kZGxlIiwidHlwZSI6InRlYWNoZXIiLCJpYXQiOjE2NjU0NzAwMDIsImV4cCI6MTY2NTQ3NzIwMn0.-cvsUwI3HBIN2VrHJbXWr8qtTqbOpopS25h0YEt0jm0"
+}
+
+==========================================================================================
+
+// for creating the assignment by the teacher
+http://localhost:3000/api/assignment/create   { POST Request }
+
+
+{
+    "studentIDs": ["6342af3fc07e2542511f90ff", "634303b352099b44e876b189"],
+    "description": "sample description",
+    "assignedDate": "2002-12-09",
+    "deadline": "2022-01-09"
+}
+
+
+Response ===>>> 
+{
+    "data": {
+        "teacherID": "63450d8d907e268b299bb113",
+        "studentIDs": [
+            "6342af3fc07e2542511f90ff",
+            "634303b352099b44e876b189"
+        ],
+        "description": "sample description",
+        "assignedDate": "2002-12-09T00:00:00.000Z",
+        "deadline": "2022-01-09T00:00:00.000Z",
+        "_id": "634510d0c78f96cd60e73f23",
+        "__v": 0
+    }
+}
+
+
+==========================================================================================
+
+for updating the assignment
+
+http://localhost:3000/api/assignment/update/63430c9aa06a2479371307fe  { PATCH Request }
+
+{
+    "description": "sample description for update purpose",
+    "assignedDate": "2002-12-12",
+    "deadline": "2022-01-01"
+}
+
+Output ===>>>
+{
+   message: "Record update successfully!"
+}
+
+
+==========================================================================================
+
+for deleting the assignment
+http://localhost:3000/api/assignment/delete/63430c9aa06a2479371307fe   { DELETE Request }
+
+
+
+Response ===>>> 
+{
+    "message": {
+        "acknowledged": true,
+        "deletedCount": 1
+    }
+}
+
+
+==========================================================================================
+for submiting the assignment by student
+http://localhost:3000/api/user/submit   { POST Request }
+
+
+{
+    "assignmentID": "6342d02f640af48b27e6e0c0",
+    "comments": "This is shiv from kanpur"
+}
+
+Output ====>>>
+
+{
+    "message": "Assignment Submitted Successfully!"
+}
+
+
+==========================================================================================
+for fetching the assignment details
+http://localhost:3000/api/user/assignmentdetails/6342d02f640af48b27e6e0c0  { GET Request }
+
+
+
+Response ===>>>
+
+{
+    "data": [
+        {
+            "_id": "6342f7eafb6863635e5def2c",
+            "studentID": "123",
+            "assignmentID": "6342d02f640af48b27e6e0c0",
+            "comments": "This is shiv from kanpur",
+            "__v": 0
+        },
+        {
+            "_id": "6343167fd5e73c334df3bbd1",
+            "studentID": "123",
+            "assignmentID": "6342d02f640af48b27e6e0c0",
+            "comments": "This is shiv from kanpur",
+            "__v": 0
+        },
+        {
+            "_id": "634316b134e21520a734834a",
+            "studentID": "234",
+            "assignmentID": "6342d02f640af48b27e6e0c0",
+            "comments": "This is shiv from kanpur",
+            "__v": 0
+        },
+        {
+            "_id": "6345154e7e4d16e63712579b",
+            "studentID": "634514b3a24ced46875c37cb",
+            "assignmentID": "6342d02f640af48b27e6e0c0",
+            "comments": "This is shiv from kanpur",
+            "__v": 0
+        }
+    ]
+}
+
+==========================================================================================
+
+get request for fetching all assigment of the teacher or student for thier dashboard purpose based on provided filter
+
+http://localhost:3000/api/user/fetchall  { GET Request }
+
+With some body parameter
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

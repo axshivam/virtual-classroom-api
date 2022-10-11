@@ -15,7 +15,7 @@ router.get('/:assignment_id', auth, async (req, res) => {
         res.status(400).send('Can not process! Kindly check the assignment id.')
     }
 
-    if(req.user.accountType !== 'student') {
+    if(req.user.type !== 'student') {
         res.status(401).send({message: 'Only student can view the assignment details!'})
     }
 
